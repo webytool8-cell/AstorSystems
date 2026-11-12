@@ -89,14 +89,14 @@ export default function ServicesPage() {
               <span className="font-mono text-sm text-accent">{s.label}</span>
               <h2 className="mt-3 text-3xl font-semibold leading-tight text-ink sm:text-4xl">{s.title}</h2>
               <p className="mt-4 text-base leading-relaxed text-muted">{s.intro}</p>
-              {s.note && <p className="mt-4 rounded-md border border-line bg-paper px-4 py-3 text-sm text-muted">{s.note}</p>}
+              {s.note && <p className="mt-4 rounded-xl border border-line bg-paper px-4 py-3 text-sm text-muted">{s.note}</p>}
               <div className="mt-8">
                 <ButtonLink href={s.cta.href} variant="secondary" arrow>
                   {s.cta.label}
                 </ButtonLink>
               </div>
             </div>
-            <div className="rounded-lg border border-line bg-white p-7 sm:p-8">
+            <div className="rounded-2xl border border-line bg-white p-7 sm:p-8">
               <CheckList items={s.items} />
             </div>
           </div>

@@ -37,7 +37,7 @@ export default function IntegrationsPage() {
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Integrations" }]}
       />
       <Section>
-        <div className="flex flex-col gap-6 rounded-lg border border-line bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-6 rounded-2xl border border-line bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-2xl">
             <p className="font-semibold text-ink">How to read integration status</p>
             <p className="mt-1 text-sm leading-relaxed text-muted">

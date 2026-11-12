@@ -57,7 +57,7 @@ export default async function IntegrationPage({ params }: Props) {
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Integrations", href: "/integrations" }, { name: int.name }]}
         aside={
           <div className="flex items-center gap-4 lg:justify-end">
-            <IntegrationMark mark={int.mark} size="lg" dark />
+            <IntegrationMark mark={int.mark} size="lg" />
             <StatusBadge status={int.status} />
           </div>
         }
@@ -86,7 +86,7 @@ export default async function IntegrationPage({ params }: Props) {
               Official website <Icon name="arrow-up-right" className="h-4 w-4" />
             </a>
           </div>
-          <div className="rounded-lg border border-line bg-white p-7">
+          <div className="rounded-2xl border border-line bg-white p-7">
             <p className="eyebrow text-accent">Business functions supported</p>
             <div className="mt-5">
               <CheckList items={int.functions} />
@@ -101,7 +101,7 @@ export default async function IntegrationPage({ params }: Props) {
             <p className="eyebrow text-accent">Example workflows</p>
             <ul className="mt-6 space-y-4">
               {int.examples.map((ex, i) => (
-                <li key={ex} className="flex gap-4 rounded-md border border-line bg-paper p-4 text-sm leading-relaxed text-ink">
+                <li key={ex} className="flex gap-4 rounded-xl border border-line bg-paper p-4 text-sm leading-relaxed text-ink">
                   <span className="font-mono text-xs text-muted-2">{String(i + 1).padStart(2, "0")}</span>
                   {ex}
                 </li>
@@ -115,7 +115,7 @@ export default async function IntegrationPage({ params }: Props) {
                 <li key={c.slug}>
                   <Link
                     href={`/integrations/${c.slug}`}
-                    className="flex items-center gap-3 rounded-md border border-line bg-white p-3 text-sm text-ink transition-colors hover:border-ink/40"
+                    className="flex items-center gap-3 rounded-xl border border-line bg-white p-3 text-sm text-ink transition-colors hover:border-ink/40"
                   >
                     <IntegrationMark mark={c.mark} size="sm" />
                     <span className="truncate">{c.name}</span>

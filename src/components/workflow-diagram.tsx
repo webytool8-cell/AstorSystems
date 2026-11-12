@@ -2,12 +2,12 @@ import type { StepKind, WorkflowStep } from "@/content/types";
 import { cx } from "./ui";
 
 export const stepKindMeta: Record<StepKind, { label: string; dot: string; short: string }> = {
-  trigger: { label: "Trigger", dot: "bg-accent", short: "TR" },
-  ai: { label: "AI step", dot: "bg-signal", short: "AI" },
-  condition: { label: "Decision", dot: "bg-amber", short: "IF" },
-  action: { label: "Action", dot: "bg-ink", short: "AC" },
-  record: { label: "Record", dot: "bg-muted-2", short: "DB" },
-  notify: { label: "Notify", dot: "bg-accent-bright", short: "NT" },
+  trigger: { label: "Starts when", dot: "bg-accent", short: "TR" },
+  ai: { label: "AI helps", dot: "bg-violet", short: "AI" },
+  condition: { label: "Checks", dot: "bg-amber", short: "IF" },
+  action: { label: "Does", dot: "bg-ink", short: "AC" },
+  record: { label: "Saves", dot: "bg-muted-2", short: "DB" },
+  notify: { label: "Lets you know", dot: "bg-accent-bright", short: "NT" },
 };
 
 /**
@@ -54,13 +54,13 @@ export function WorkflowDiagram({ steps, dark = false, showDetails = true }: { s
               )}
               <div
                 className={cx(
-                  "flex w-full flex-col rounded-md border p-4",
+                  "flex w-full flex-col rounded-xl border p-4",
                   dark ? "border-line-dark bg-navy-900/80" : "border-line bg-white",
                   step.kind === "condition" && (dark ? "border-amber/40" : "border-amber/40"),
                 )}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className={cx("flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider", dark ? "text-muted-dark" : "text-muted")}>
+                  <span className={cx("flex items-center gap-2 text-[11px] font-medium", dark ? "text-muted-dark" : "text-muted")}>
                     <span className={cx("h-2 w-2 rounded-[2px]", meta.dot)} aria-hidden="true" />
                     {meta.label}
                   </span>
@@ -118,7 +118,7 @@ export function StepLegend({ dark = false }: { dark?: boolean }) {
   return (
     <ul className="flex flex-wrap gap-x-5 gap-y-2">
       {Object.entries(stepKindMeta).map(([kind, meta]) => (
-        <li key={kind} className={cx("flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider", dark ? "text-muted-dark" : "text-muted")}>
+        <li key={kind} className={cx("flex items-center gap-2 text-xs font-medium", dark ? "text-muted-dark" : "text-muted")}>
           <span className={cx("h-2 w-2 rounded-[2px]", meta.dot)} aria-hidden="true" />
           {meta.label}
         </li>

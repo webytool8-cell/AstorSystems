@@ -6,6 +6,7 @@ export const industries: Industry[] = [
     name: "Property Management",
     shortName: "Property Management",
     icon: "building",
+    preview: { app: "Maintenance", title: "Urgent: leak under kitchen sink", body: "Unit 4B · photo attached · on-call notified", tone: "sun" },
     headline: "Technology solutions for property management",
     intro:
       "Property managers coordinate tenants, owners, vendors and paperwork across many units. We build systems that capture maintenance requests completely, route them to the right vendor and keep everyone informed without constant phone calls.",
@@ -48,6 +49,7 @@ export const industries: Industry[] = [
     name: "Auto Repair & Automotive Services",
     shortName: "Auto Repair",
     icon: "wrench",
+    preview: { app: "Service desk", title: "Your car is ready for pickup", body: "2019 Civic · brakes + oil change · pay online", tone: "mint" },
     headline: "Automation for auto repair shops",
     intro:
       "Service advisors juggle phones, walk-ins and technicians all day. We help shops answer every inquiry, keep bays full with timely reminders and update customers without pulling advisors away from the counter.",
@@ -90,6 +92,7 @@ export const industries: Industry[] = [
     name: "Plumbing & HVAC",
     shortName: "Plumbing & HVAC",
     icon: "pipe",
+    preview: { app: "Dispatch", title: "No heat — emergency call", body: "Service area ✓ · transferred to on-call tech", tone: "sun" },
     headline: "Automation for plumbing and HVAC companies",
     intro:
       "Plumbing and HVAC calls are often urgent, and they arrive while technicians are under a sink or on a roof. We help you answer every call, separate emergencies from routine work and keep maintenance customers coming back each season.",
@@ -129,6 +132,7 @@ export const industries: Industry[] = [
     name: "Cleaning Companies",
     shortName: "Cleaning Companies",
     icon: "sparkle",
+    preview: { app: "Quotes", title: "New quote request: deep clean", body: "3 bed · 2 bath · est. $240–$290", tone: "accent" },
     headline: "Systems for cleaning companies",
     intro:
       "Residential and commercial cleaning businesses win on responsiveness and reliability. We automate quote requests, onboarding and scheduling so you can respond faster and keep a growing customer base organised.",
@@ -169,6 +173,7 @@ export const industries: Industry[] = [
     name: "Contractors & Home Services",
     shortName: "Contractors & Home Services",
     icon: "hammer",
+    preview: { app: "Leads", title: "Kitchen remodel inquiry", body: "Budget $25–40k · estimate visit booked Thu", tone: "violet" },
     headline: "Technology for contractors and home service businesses",
     intro:
       "Contractors and home service businesses run on the phone and the calendar. We build systems that handle incoming calls, qualify leads, schedule estimates and keep following up until there is a decision.",
@@ -209,6 +214,7 @@ export const industries: Industry[] = [
     name: "Moving Companies",
     shortName: "Moving Companies",
     icon: "truck",
+    preview: { app: "Bookings", title: "Move confirmed for June 28", body: "2-bed apartment · 3rd floor · crew of 3", tone: "mint" },
     headline: "Automation for moving companies",
     intro:
       "Moving inquiries are time-sensitive and detail-heavy. We help moving companies collect inventory and logistics details upfront, respond quickly and keep customers informed through move day.",
@@ -244,6 +250,7 @@ export const industries: Industry[] = [
     name: "Barbershops & Salons",
     shortName: "Barbershops & Salons",
     icon: "scissors",
+    preview: { app: "Bookings", title: "Reminder: haircut tomorrow 3:00 PM", body: "Reply C to confirm or R to reschedule", tone: "accent" },
     headline: "Automation for barbershops and salons",
     intro:
       "Stylists and barbers should spend their time with clients, not on the phone. We set up booking, reminders and rebooking flows that keep chairs full and reduce no-shows.",
@@ -275,6 +282,7 @@ export const industries: Industry[] = [
     name: "Professional Services",
     shortName: "Professional Services",
     icon: "briefcase",
+    preview: { app: "Onboarding", title: "New client: documents received", body: "Engagement signed · folder created · 2 items pending", tone: "violet" },
     headline: "Business systems for professional service firms",
     intro:
       "Accounting, legal, consulting and agency teams sell expertise, but lose hours to intake, document handling and status reporting. We automate the administrative layer so professionals spend time on client work.",
@@ -308,6 +316,7 @@ export const industries: Industry[] = [
     name: "Nonprofits & Community Organizations",
     shortName: "Nonprofits",
     icon: "heart",
+    preview: { app: "Volunteers", title: "Saturday shift needs 3 more people", body: "Food distribution · 9am–12pm · alert sent", tone: "sun" },
     headline: "Technology for nonprofits and community organizations",
     intro:
       "Nonprofits do a great deal with small teams and volunteers. We help organisations automate volunteer coordination, intake and documentation so staff time goes to the mission.",

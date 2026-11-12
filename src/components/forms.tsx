@@ -19,7 +19,7 @@ type Option = { value: string; label: string };
 type Status = { state: "idle" } | { state: "submitting" } | { state: "success"; reference: string } | { state: "error"; message: string };
 
 const inputClass =
-  "w-full rounded-md border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-muted-2 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15";
+  "w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-muted-2 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15";
 
 function Field({
   name,
@@ -141,7 +141,7 @@ function Honeypot() {
 
 function SuccessPanel({ reference, title, children }: { reference: string; title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-lg border border-line bg-white p-8" role="status" aria-live="polite">
+    <div className="rounded-2xl border border-line bg-white p-8" role="status" aria-live="polite">
       <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-soft text-accent">
         <Icon name="check" className="h-5 w-5" strokeWidth={2} />
       </span>
@@ -191,7 +191,7 @@ function SubmitBar({ status, label }: { status: Status; label: string }) {
       <button
         type="submit"
         disabled={status.state === "submitting"}
-        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-strong disabled:cursor-wait disabled:opacity-70"
+        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-strong disabled:cursor-wait disabled:opacity-70"
       >
         {status.state === "submitting" ? "Sending…" : label}
         {status.state !== "submitting" && <Icon name="arrow-right" className="h-4 w-4" />}
@@ -203,7 +203,7 @@ function SubmitBar({ status, label }: { status: Status; label: string }) {
 function ErrorBanner({ status }: { status: Status }) {
   if (status.state !== "error") return null;
   return (
-    <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
       {status.message}
     </div>
   );
@@ -251,7 +251,7 @@ export function ProjectInquiryForm({ industries, context, defaultIndustry }: { i
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="relative space-y-10 rounded-lg border border-line bg-white p-6 sm:p-8">
+    <form onSubmit={onSubmit} noValidate className="relative space-y-10 rounded-2xl border border-line bg-white p-6 sm:p-8">
       <Honeypot />
       {context && <input type="hidden" name="context" value={context} />}
       <fieldset className="space-y-5">
@@ -355,7 +355,7 @@ export function ContactForm({ defaultTopic, context }: { defaultTopic?: string; 
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="relative space-y-5 rounded-lg border border-line bg-white p-6 sm:p-8">
+    <form onSubmit={onSubmit} noValidate className="relative space-y-5 rounded-2xl border border-line bg-white p-6 sm:p-8">
       <Honeypot />
       {context && <input type="hidden" name="context" value={context} />}
       <Select name="topic" label="What can we help with?" required errors={errors} options={contactTopics} defaultValue={initialTopic} />

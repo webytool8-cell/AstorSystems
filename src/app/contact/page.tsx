@@ -47,7 +47,7 @@ export default async function ContactPage({ searchParams }: Props) {
                 ))}
               </ul>
             </div>
-            <div className="rounded-lg border border-line bg-white p-6">
+            <div className="rounded-2xl border border-line bg-white p-6">
               <p className="eyebrow text-muted">Email</p>
               <a href={`mailto:${site.email}`} className="mt-2 flex items-center gap-2 font-mono text-sm text-ink hover:text-accent">
                 <Icon name="mail" className="h-4 w-4" />
@@ -56,7 +56,7 @@ export default async function ContactPage({ searchParams }: Props) {
               <p className="mt-5 eyebrow text-muted">Response time</p>
               <p className="mt-2 text-sm text-ink">Within two business days</p>
             </div>
-            <div className="rounded-lg border border-line bg-white p-6">
+            <div className="rounded-2xl border border-line bg-white p-6">
               <p className="font-semibold text-ink">Have a defined project?</p>
               <p className="mt-1 text-sm leading-relaxed text-muted">
                 Use the project inquiry form to share your current tools, problems, budget and timeline in one go.

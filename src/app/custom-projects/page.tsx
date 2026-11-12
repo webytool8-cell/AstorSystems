@@ -50,7 +50,7 @@ export default async function CustomProjectsPage({ searchParams }: Props) {
         <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
           <aside className="space-y-10 lg:sticky lg:top-24 lg:h-fit">
             {contextLabel && (
-              <div className="rounded-lg border border-accent/30 bg-accent-soft p-5">
+              <div className="rounded-2xl border border-accent/30 bg-accent-soft p-5">
                 <p className="eyebrow text-accent-strong">Regarding</p>
                 <p className="mt-2 font-medium text-ink">{contextLabel}</p>
                 <p className="mt-1 text-xs text-muted">This will be attached to your inquiry.</p>

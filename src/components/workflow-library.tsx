@@ -75,7 +75,7 @@ export function WorkflowLibrary({
 
   return (
     <div>
-      <div className="rounded-lg border border-line bg-white p-4 sm:p-5">
+      <div className="rounded-2xl border border-line bg-white p-4 sm:p-5">
         <div className="relative">
           <Icon name="search" className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-2" />
           <label htmlFor="workflow-search" className="sr-only">
@@ -90,7 +90,7 @@ export function WorkflowLibrary({
               setParam("q", e.target.value);
             }}
             placeholder="Search workflows, e.g. “reminders” or “invoices”"
-            className="w-full rounded-md border border-line bg-paper py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-muted-2 focus:border-accent focus:bg-white focus:outline-none"
+            className="w-full rounded-xl border border-line bg-paper py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-muted-2 focus:border-accent focus:bg-white focus:outline-none"
           />
         </div>
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -103,7 +103,7 @@ export function WorkflowLibrary({
                 id={`filter-${s.key}`}
                 value={filters[s.key]}
                 onChange={(e) => setParam(s.key, e.target.value)}
-                className="w-full rounded-md border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none"
+                className="w-full rounded-xl border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none"
               >
                 <option value="">All</option>
                 {s.options.map((o) => (
@@ -144,7 +144,7 @@ export function WorkflowLibrary({
           ))}
         </ul>
       ) : (
-        <div className="mt-4 rounded-lg border border-dashed border-line-strong bg-white px-6 py-14 text-center">
+        <div className="mt-4 rounded-2xl border border-dashed border-line-strong bg-white px-6 py-14 text-center">
           <p className="font-medium text-ink">No workflows match those filters yet.</p>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted">
             Many implementations are built to order. Describe the process you want to automate and we will tell you what is

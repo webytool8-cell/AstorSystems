@@ -71,6 +71,8 @@ export interface Industry {
   /** Short label for nav / cards, e.g. "Property Management". */
   shortName: string;
   icon: IconName;
+  /** Illustrative notification shown on industry cards (sample content, not a real customer). */
+  preview: { app: string; title: string; body: string; tone: "accent" | "mint" | "sun" | "violet" };
   headline: string;
   intro: string;
   metaTitle: string;

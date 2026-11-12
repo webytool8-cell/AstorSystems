@@ -2,97 +2,147 @@ import Link from "next/link";
 import type { Industry, Integration, Solution, Workflow } from "@/content/types";
 import { accessLabel, platformLabels } from "@/lib/content";
 import { Icon } from "./icons";
+import { NotificationPreview } from "./illustrations";
 import { IntegrationMark, StatusBadge, Tag, cx } from "./ui";
 import { WorkflowMini } from "./workflow-diagram";
 
-export function SolutionCard({ solution, index }: { solution: Solution; index?: number }) {
+/** Rotating soft tints so grids of cards feel lively without extra imagery. */
+const tints = [
+  "bg-accent-soft text-accent",
+  "bg-mint-soft text-mint",
+  "bg-violet-soft text-violet",
+  "bg-sun-soft text-sun",
+  "bg-sky-soft text-accent-strong",
+  "bg-rose-soft text-[#b4443a]",
+];
+export const tint = (i: number) => tints[i % tints.length];
+
+const cardBase = "card-hover group flex h-full flex-col rounded-2xl border border-line bg-white shadow-[var(--shadow-card)]";
+
+export function SolutionCard({ solution, index = 0 }: { solution: Solution; index?: number }) {
   return (
-    <Link
-      href={`/solutions/${solution.slug}`}
-      className="group flex h-full flex-col rounded-lg border border-line bg-white p-6 transition-colors hover:border-ink/40"
-    >
-      <div className="flex items-center justify-between">
-        <span className="flex h-10 w-10 items-center justify-center rounded-md bg-paper text-ink">
-          <Icon name={solution.icon} />
-        </span>
-        {index !== undefined && <span className="font-mono text-xs text-muted-2">{String(index + 1).padStart(2, "0")}</span>}
-      </div>
-      <h3 className="mt-6 text-lg font-semibold text-ink">{solution.name}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{solution.tagline}</p>
-      <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink group-hover:text-accent">
-        View solution
-        <Icon name="arrow-right" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+    <Link href={`/solutions/${solution.slug}`} className={cx(cardBase, "p-6")}>
+      <span className={cx("flex h-12 w-12 items-center justify-center rounded-xl", tint(index))}>
+        <Icon name={solution.icon} className="h-6 w-6" />
+      </span>
+      <h3 className="mt-5 text-lg font-semibold text-ink">{solution.name}</h3>
+      <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{solution.tagline}</p>
+      <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+        Learn more
+        <Icon name="arrow-right" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
       </span>
     </Link>
   );
 }
 
-export function IndustryCard({ industry, dark = false }: { industry: Industry; dark?: boolean }) {
+const previewBg = {
+  accent: "from-accent-soft to-sky-soft",
+  mint: "from-mint-soft to-sky-soft",
+  sun: "from-sun-soft to-rose-soft",
+  violet: "from-violet-soft to-accent-soft",
+} as const;
+
+export function IndustryCard({ industry }: { industry: Industry; dark?: boolean }) {
   return (
-    <Link
-      href={`/industries/${industry.slug}`}
-      className={cx(
-        "group flex h-full flex-col justify-between gap-6 rounded-lg border p-6 transition-colors",
-        dark ? "border-line-dark bg-navy-900 hover:border-accent-bright/60" : "border-line bg-white hover:border-ink/40",
-      )}
-    >
-      <div>
-        <Icon name={industry.icon} className={cx("h-6 w-6", dark ? "text-accent-bright" : "text-accent")} />
-        <h3 className={cx("mt-5 text-lg font-semibold", dark ? "text-white" : "text-ink")}>{industry.shortName}</h3>
-        <p className={cx("mt-2 text-sm leading-relaxed", dark ? "text-muted-dark" : "text-muted")}>
-          {industry.challenges
+    <Link href={`/industries/${industry.slug}`} className={cx(cardBase, "overflow-hidden")}>
+      <div className={cx("relative bg-gradient-to-br px-5 pb-5 pt-6", previewBg[industry.preview.tone])}>
+        <div className="transition-transform duration-300 group-hover:-translate-y-1">
+          <NotificationPreview {...industry.preview} />
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-center gap-3">
+          <Icon name={industry.icon} className="h-5 w-5 text-accent" />
+          <h3 className="text-lg font-semibold text-ink">{industry.shortName}</h3>
+        </div>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
+          {industry.solutions
             .slice(0, 3)
-            .map((c) => c.title)
+            .map((s) => s.title)
             .join(" · ")}
         </p>
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+          See how we help
+          <Icon name="arrow-right" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </span>
       </div>
-      <span className={cx("inline-flex items-center gap-1.5 text-sm font-medium", dark ? "text-white" : "text-ink", "group-hover:text-accent-bright")}>
-        Explore
-        <Icon name="arrow-right" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-      </span>
     </Link>
   );
 }
 
-export function WorkflowCard({ workflow, industryNames }: { workflow: Workflow; industryNames?: string[] }) {
+export function WorkflowCard({ workflow }: { workflow: Workflow }) {
   return (
-    <Link
-      href={`/workflows/${workflow.slug}`}
-      className="group flex h-full flex-col rounded-lg border border-line bg-white p-6 transition-colors hover:border-ink/40"
-    >
+    <Link href={`/workflows/${workflow.slug}`} className={cx(cardBase, "p-6")}>
       <div className="flex flex-wrap items-center gap-2">
-        <Tag>{workflow.function}</Tag>
+        <Tag tone="accent">{workflow.function}</Tag>
         <Tag>{workflow.difficulty}</Tag>
       </div>
       <h3 className="mt-4 text-base font-semibold leading-snug text-ink">{workflow.name}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{workflow.summary}</p>
-      <div className="mt-6">
+      <div className="mt-6 rounded-xl bg-paper px-3 py-3">
         <WorkflowMini steps={workflow.steps} />
       </div>
-      <div className="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4 text-xs">
-        <span className="font-mono text-muted">{workflow.platforms.map((p) => platformLabels[p]).join(" · ")}</span>
-        <span className={cx("font-medium", workflow.access.status === "implementation" ? "text-accent-strong" : "text-muted")}>
+      <div className="mt-4 flex items-center justify-between gap-3 text-xs">
+        <span className="text-muted">{workflow.platforms.map((p) => platformLabels[p]).join(" · ")}</span>
+        <span className={cx("font-semibold", workflow.access.status === "implementation" ? "text-mint" : "text-muted")}>
           {accessLabel(workflow)}
         </span>
       </div>
-      {industryNames && industryNames.length > 0 && <p className="sr-only">Industries: {industryNames.join(", ")}</p>}
     </Link>
   );
 }
 
 export function IntegrationCard({ integration }: { integration: Integration }) {
   return (
-    <Link
-      href={`/integrations/${integration.slug}`}
-      className="group flex h-full flex-col rounded-lg border border-line bg-white p-5 transition-colors hover:border-ink/40"
-    >
+    <Link href={`/integrations/${integration.slug}`} className={cx(cardBase, "p-5")}>
       <div className="flex items-start justify-between gap-3">
         <IntegrationMark mark={integration.mark} />
         <StatusBadge status={integration.status} />
       </div>
       <h3 className="mt-4 font-semibold text-ink">{integration.name}</h3>
-      <p className="mt-0.5 font-mono text-[11px] uppercase tracking-wide text-muted-2">{integration.category}</p>
+      <p className="mt-0.5 text-xs text-muted-2">{integration.category}</p>
       <p className="mt-3 text-sm leading-relaxed text-muted">{integration.summary}</p>
+    </Link>
+  );
+}
+
+export function ServiceCard({
+  href,
+  label,
+  title,
+  body,
+  points,
+  cta,
+  image,
+}: {
+  href: string;
+  label: string;
+  title: string;
+  body: string;
+  points: string[];
+  cta: string;
+  image: React.ReactNode;
+}) {
+  return (
+    <Link href={href} className={cx(cardBase, "overflow-hidden")}>
+      <div className="relative h-52 overflow-hidden border-b border-line">{image}</div>
+      <div className="flex flex-1 flex-col p-7">
+        <p className="text-[13px] font-semibold text-accent">{label}</p>
+        <h3 className="mt-1.5 text-xl font-semibold text-ink">{title}</h3>
+        <p className="mt-2 text-[15px] leading-relaxed text-muted">{body}</p>
+        <ul className="mt-5 flex-1 space-y-2">
+          {points.map((p) => (
+            <li key={p} className="flex gap-2.5 text-sm text-ink/85">
+              <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-mint" strokeWidth={2.25} />
+              {p}
+            </li>
+          ))}
+        </ul>
+        <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+          {cta}
+          <Icon name="arrow-right" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </span>
+      </div>
     </Link>
   );
 }

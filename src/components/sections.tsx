@@ -16,19 +16,26 @@ export function PageHero({
   aside?: React.ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-navy-950 text-white">
-      <div className="bg-grid-dark absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden="true" />
-      <Container className="relative py-16 sm:py-20 lg:py-24">
+    <section className="relative overflow-hidden border-b border-line bg-paper">
+      <div
+        className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-accent-soft blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -bottom-48 right-1/3 h-[360px] w-[360px] rounded-full bg-sun-soft/70 blur-3xl"
+        aria-hidden="true"
+      />
+      <Container className="relative py-14 sm:py-16 lg:py-20">
         {breadcrumbs && (
-          <div className="mb-10">
-            <Breadcrumbs items={breadcrumbs} dark />
+          <div className="mb-8">
+            <Breadcrumbs items={breadcrumbs} />
           </div>
         )}
         <div className={cx("grid gap-12", Boolean(aside) && "lg:grid-cols-[1.3fr_1fr] lg:items-end")}>
-          <div className="max-w-3xl">
-            {eyebrow && <Eyebrow dark>{eyebrow}</Eyebrow>}
-            <h1 className="mt-5 text-4xl font-semibold leading-[1.08] sm:text-5xl">{title}</h1>
-            {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-dark">{intro}</p>}
+          <div className="max-w-3xl animate-rise">
+            {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+            <h1 className="mt-5 text-4xl font-semibold leading-[1.08] text-ink sm:text-5xl">{title}</h1>
+            {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{intro}</p>}
             {children && <div className="mt-8">{children}</div>}
           </div>
           {aside}
@@ -52,11 +59,12 @@ export function CtaBand({
   return (
     <section className="bg-paper py-20 sm:py-24">
       <Container>
-        <div className="relative overflow-hidden rounded-xl bg-ink px-6 py-12 text-white sm:px-12 sm:py-16">
-          <div className="bg-grid-dark absolute inset-0 opacity-60" aria-hidden="true" />
+        <div className="relative overflow-hidden rounded-[28px] bg-navy-900 px-6 py-12 text-white sm:px-12 sm:py-16">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-accent/40 blur-3xl" aria-hidden="true" />
+          <div className="pointer-events-none absolute -bottom-32 left-10 h-72 w-72 rounded-full bg-violet/30 blur-3xl" aria-hidden="true" />
           <div className="relative grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
-              <Eyebrow dark>Consultation</Eyebrow>
+              <Eyebrow dark>Free consultation</Eyebrow>
               <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">{title}</h2>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-dark">{body}</p>
             </div>

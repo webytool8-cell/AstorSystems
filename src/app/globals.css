@@ -24,7 +24,7 @@
   --color-line-strong: #c4c1b5;
   --color-line-dark: #24324f;
 
-  --color-muted: #5c6475;
+  --color-muted: #4f5869;
   --color-muted-2: #8790a3;
   --color-muted-dark: #9aa5bd;
 
@@ -34,18 +34,53 @@
   --color-accent-bright: #6b8fff;
 
   --color-signal: #b9f04a;
+  --color-mint: #12805c;
+  --color-mint-soft: #e3f5ec;
+  --color-sun: #b7791f;
+  --color-sun-soft: #fdf1dc;
+  --color-violet: #6b4fd8;
+  --color-violet-soft: #eeeafd;
+  --color-rose-soft: #fde8e6;
+  --color-sky-soft: #e5f1fb;
   --color-amber: #c98a1b;
 
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
+  --radius-xl: 16px;
+  --radius-2xl: 22px;
+
+  --shadow-card: 0 1px 2px rgb(7 11 20 / 0.04), 0 4px 16px -6px rgb(7 11 20 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(7 11 20 / 0.04), 0 18px 40px -16px rgb(7 11 20 / 0.22);
+  --shadow-float: 0 24px 60px -20px rgb(13 22 40 / 0.35);
 
   --animate-dash: dash 2.4s linear infinite;
   --animate-pulse-soft: pulse-soft 2.8s ease-in-out infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-rise: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 
   @keyframes dash {
     to {
       stroke-dashoffset: -24;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
   @keyframes pulse-soft {
@@ -106,12 +141,26 @@
       linear-gradient(to bottom, rgb(7 11 20 / 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
   }
+  .bg-dots {
+    background-image: radial-gradient(rgb(7 11 20 / 0.12) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  .card-hover {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+  }
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
   .prose-astor p + p {
     margin-top: 1rem;

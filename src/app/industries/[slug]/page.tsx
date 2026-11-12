@@ -4,6 +4,7 @@ import { WorkflowCard } from "@/components/cards";
 import { Icon } from "@/components/icons";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { ButtonLink, JsonLd, SectionHeader } from "@/components/ui";
+import { NotificationPreview, Toast } from "@/components/illustrations";
 import { getIndustries, getIndustry, getSolution, getWorkflowsBySlugs } from "@/lib/content";
 import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
 
@@ -46,12 +47,23 @@ export default async function IndustryPage({ params }: Props) {
         title={ind.headline}
         intro={ind.intro}
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Industries", href: "/industries" }, { name: ind.shortName }]}
+        aside={
+          <div className="relative hidden lg:block" role="img" aria-label={`Example notification: ${ind.preview.title}`}>
+            <div className="rotate-[-2deg] rounded-3xl bg-gradient-to-br from-accent-soft to-violet-soft p-6 shadow-[var(--shadow-float)]">
+              <NotificationPreview {...ind.preview} />
+              <div className="mt-3 opacity-70">
+                <NotificationPreview app="Astor" title="Customer updated automatically" body="Confirmation sent by text · logged to records" tone="mint" />
+              </div>
+            </div>
+            <Toast className="absolute -bottom-6 -left-6" icon="check" tone="mint" title="Handled automatically" detail="No extra calls needed" />
+          </div>
+        }
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href={`/contact?type=consultation&industry=${ind.slug}`} arrow>
             Request a consultation
           </ButtonLink>
-          <ButtonLink href={`/workflows?industry=${ind.slug}`} variant="outline-light">
+          <ButtonLink href={`/workflows?industry=${ind.slug}`} variant="outline">
             {ind.shortName} workflows
           </ButtonLink>
         </div>
@@ -63,9 +75,9 @@ export default async function IndustryPage({ params }: Props) {
           eyebrow="Operational challenges"
           title={`Where time and revenue leak in ${ind.shortName.toLowerCase()}.`}
         />
-        <ul className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {ind.challenges.map((c, i) => (
-            <li key={c.title} className="bg-white p-6 sm:p-7">
+            <li key={c.title} className="rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-card)] sm:p-7">
               <span className="font-mono text-xs text-amber">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="mt-3 font-semibold text-ink">{c.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{c.description}</p>
@@ -78,7 +90,7 @@ export default async function IndustryPage({ params }: Props) {
       <Section tone="dark">
         <SectionHeader dark eyebrow="A realistic scenario" title={ind.scenario.title} intro="An illustrative example of the same situation, handled two ways." />
         <div className="mt-12 grid gap-4 lg:grid-cols-2">
-          <div className="rounded-lg border border-line-dark bg-navy-900 p-7">
+          <div className="rounded-2xl border border-line-dark bg-navy-900 p-7">
             <p className="eyebrow text-muted-dark">Today</p>
             <ol className="mt-6 space-y-5">
               {ind.scenario.today.map((t, i) => (
@@ -89,7 +101,7 @@ export default async function IndustryPage({ params }: Props) {
               ))}
             </ol>
           </div>
-          <div className="rounded-lg border border-accent/50 bg-navy-800 p-7">
+          <div className="rounded-2xl border border-accent/50 bg-navy-800 p-7">
             <p className="eyebrow text-accent-bright">With connected systems</p>
             <ol className="mt-6 space-y-5">
               {ind.scenario.withSystems.map((t, i) => (
@@ -126,7 +138,7 @@ export default async function IndustryPage({ params }: Props) {
             );
           })}
         </ul>
-        <div className="mt-10 rounded-lg border border-line bg-white p-6">
+        <div className="mt-10 rounded-2xl border border-line bg-white p-6">
           <p className="eyebrow text-muted">Works alongside tools you may already use</p>
           <ul className="mt-4 flex flex-wrap gap-2">
             {ind.commonTools.map((t) => (

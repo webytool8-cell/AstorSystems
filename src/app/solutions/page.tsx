@@ -31,7 +31,7 @@ export default function SolutionsPage() {
               >
                 <div className="flex items-center gap-4">
                   <span className="font-mono text-xs text-muted-2">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="flex h-11 w-11 items-center justify-center rounded-md border border-line bg-white text-ink">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-white text-ink">
                     <Icon name={s.icon} />
                   </span>
                 </div>

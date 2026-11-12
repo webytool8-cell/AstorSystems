@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { IndustryCard, IntegrationCard, WorkflowCard } from "@/components/cards";
 import { Icon } from "@/components/icons";
 import { CtaBand, PageHero, Section } from "@/components/sections";
-import { ButtonLink, CheckList, JsonLd, SectionHeader } from "@/components/ui";
+import { ButtonLink, CheckList, Eyebrow, JsonLd, SectionHeader, cx } from "@/components/ui";
+import { stepKindMeta } from "@/components/workflow-diagram";
 import { StepLegend, WorkflowDiagram } from "@/components/workflow-diagram";
 import { getIndustriesBySlugs, getIntegrationsBySlugs, getSolution, getSolutions, getWorkflowsBySlugs } from "@/lib/content";
 import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
@@ -49,12 +50,30 @@ export default async function SolutionPage({ params }: Props) {
         title={s.headline}
         intro={s.tagline}
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Solutions", href: "/solutions" }, { name: s.name }]}
+        aside={
+          <div className="relative hidden rounded-3xl border border-line bg-white/90 p-6 shadow-[var(--shadow-float)] lg:block" role="img" aria-label={`How ${s.name.toLowerCase()} works, step by step`}>
+            <p className="text-sm font-semibold text-ink">How it works</p>
+            <ol className="mt-4 space-y-2.5">
+              {s.steps.map((st, i) => (
+                <li key={st.label} className="flex items-center gap-3 rounded-xl bg-paper px-3 py-2.5">
+                  <span className={cx("flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[11px] font-bold text-white", stepKindMeta[st.kind].dot)}>
+                    {i + 1}
+                  </span>
+                  <span className="leading-tight">
+                    <span className="block text-sm font-medium text-ink">{st.label}</span>
+                    {st.tool && <span className="block text-xs text-muted">{st.tool}</span>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        }
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href={`/custom-projects?solution=${s.slug}`} arrow>
             Request implementation
           </ButtonLink>
-          <ButtonLink href="#how-it-works" variant="outline-light">
+          <ButtonLink href="#how-it-works" variant="outline">
             See how it works
           </ButtonLink>
         </div>
@@ -64,7 +83,8 @@ export default async function SolutionPage({ params }: Props) {
       <Section>
         <div className="grid gap-14 lg:grid-cols-2">
           <div>
-            <SectionHeader eyebrow="The problem" title={s.problem.summary} />
+            <Eyebrow>The problem</Eyebrow>
+            <p className="mt-4 text-2xl font-semibold leading-snug text-ink sm:text-[1.7rem]">{s.problem.summary}</p>
             <ul className="mt-8 space-y-4">
               {s.problem.points.map((p) => (
                 <li key={p} className="flex gap-3 text-sm leading-relaxed text-muted">
@@ -74,7 +94,7 @@ export default async function SolutionPage({ params }: Props) {
               ))}
             </ul>
           </div>
-          <div className="rounded-lg border border-line bg-white p-7 sm:p-9">
+          <div className="rounded-2xl border border-line bg-white p-7 sm:p-9">
             <p className="eyebrow text-accent">The solution</p>
             <div className="prose-astor mt-5 text-base leading-relaxed text-ink">
               {s.description.map((p) => (
@@ -111,9 +131,9 @@ export default async function SolutionPage({ params }: Props) {
       {/* Benefits */}
       <Section>
         <SectionHeader eyebrow="Business benefits" title="What changes for your business." />
-        <ul className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {s.benefits.map((b) => (
-            <li key={b.title} className="bg-white p-6">
+            <li key={b.title} className="rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-card)]">
               <h3 className="font-semibold text-ink">{b.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{b.description}</p>
             </li>
@@ -148,7 +168,7 @@ export default async function SolutionPage({ params }: Props) {
         <SectionHeader eyebrow="Implementation options" title="Choose the level of involvement that suits you." />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
           {s.implementation.map((opt, i) => (
-            <li key={opt.title} className="flex flex-col rounded-lg border border-line bg-white p-7">
+            <li key={opt.title} className="flex flex-col rounded-2xl border border-line bg-white p-7">
               <span className="font-mono text-xs text-muted-2">Option {String.fromCharCode(65 + i)}</span>
               <h3 className="mt-3 text-lg font-semibold text-ink">{opt.title}</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{opt.description}</p>

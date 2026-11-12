@@ -87,10 +87,10 @@ export default async function WorkflowPage({ params }: Props) {
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Workflows", href: "/workflows" }, { name: w.name }]}
       >
         <div className="flex flex-wrap gap-2">
-          <Tag tone="dark">{w.function}</Tag>
-          <Tag tone="dark">{w.difficulty}</Tag>
+          <Tag tone="accent">{w.function}</Tag>
+          <Tag tone="accent">{w.difficulty}</Tag>
           {w.platforms.map((p) => (
-            <Tag tone="dark" key={p}>
+            <Tag tone="accent" key={p}>
               {platformLabels[p]}
             </Tag>
           ))}
@@ -124,7 +124,7 @@ export default async function WorkflowPage({ params }: Props) {
               </div>
             </div>
           </div>
-          <aside className="h-fit rounded-lg border border-line bg-white">
+          <aside className="h-fit rounded-2xl border border-line bg-white">
             <dl className="divide-y divide-line">
               {facts.map(([k, v]) => (
                 <div key={k} className="grid grid-cols-[8.5rem_1fr] gap-3 px-5 py-3.5 text-sm">

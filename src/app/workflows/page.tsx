@@ -30,7 +30,7 @@ export default function WorkflowsPage() {
           <p className="text-sm text-muted">Diagram key</p>
           <StepLegend />
         </div>
-        <Suspense fallback={<div className="h-40 rounded-lg border border-line bg-white" />}>
+        <Suspense fallback={<div className="h-40 rounded-2xl border border-line bg-white" />}>
           <WorkflowLibrary workflows={workflows} industries={industries} categories={categories} />
         </Suspense>
       </Section>

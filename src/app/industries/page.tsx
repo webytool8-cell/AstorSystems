@@ -27,10 +27,10 @@ export default function IndustriesPage() {
             <li key={ind.slug}>
               <Link
                 href={`/industries/${ind.slug}`}
-                className="group flex h-full flex-col rounded-lg border border-line bg-white p-7 transition-colors hover:border-ink/40"
+                className="group flex h-full flex-col rounded-2xl border border-line bg-white p-7 transition-colors hover:border-ink/40"
               >
                 <div className="flex items-center gap-4">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-md bg-paper text-accent">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-paper text-accent">
                     <Icon name={ind.icon} className="h-6 w-6" />
                   </span>
                   <h2 className="text-xl font-semibold text-ink group-hover:text-accent">{ind.name}</h2>

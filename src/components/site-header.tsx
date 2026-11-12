@@ -56,7 +56,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href="/contact?type=consultation"
-            className="rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-navy-800"
+            className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-navy-800"
           >
             Request a consultation
           </Link>
@@ -98,7 +98,7 @@ export function SiteHeader() {
             </nav>
             <Link
               href="/contact?type=consultation"
-              className="mt-8 flex w-full items-center justify-center rounded-md bg-accent px-5 py-3.5 text-sm font-medium text-white"
+              className="mt-8 flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3.5 text-sm font-medium text-white"
             >
               Request a consultation
             </Link>
