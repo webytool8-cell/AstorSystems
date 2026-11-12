@@ -58,9 +58,12 @@ export function SiteFooter() {
           <p>
             &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-white">
               Privacy
+            </Link>
+            <Link href="/credits" className="hover:text-white">
+              Image credits
             </Link>
             <span>Third-party product names are trademarks of their respective owners.</span>
           </div>

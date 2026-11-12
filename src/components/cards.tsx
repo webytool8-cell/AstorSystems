@@ -3,6 +3,8 @@ import type { Industry, Integration, Solution, Workflow } from "@/content/types"
 import { accessLabel, platformLabels } from "@/lib/content";
 import { Icon } from "./icons";
 import { NotificationPreview } from "./illustrations";
+import { Photo } from "./photo";
+import type { PhotoKey } from "@/content/photos";
 import { IntegrationMark, StatusBadge, Tag, cx } from "./ui";
 import { WorkflowMini } from "./workflow-diagram";
 
@@ -35,18 +37,13 @@ export function SolutionCard({ solution, index = 0 }: { solution: Solution; inde
   );
 }
 
-const previewBg = {
-  accent: "from-accent-soft to-sky-soft",
-  mint: "from-mint-soft to-sky-soft",
-  sun: "from-sun-soft to-rose-soft",
-  violet: "from-violet-soft to-accent-soft",
-} as const;
-
 export function IndustryCard({ industry }: { industry: Industry; dark?: boolean }) {
   return (
     <Link href={`/industries/${industry.slug}`} className={cx(cardBase, "overflow-hidden")}>
-      <div className={cx("relative bg-gradient-to-br px-5 pb-5 pt-6", previewBg[industry.preview.tone])}>
-        <div className="transition-transform duration-300 group-hover:-translate-y-1">
+      <div className="relative h-52 overflow-hidden">
+        <Photo name={industry.slug as PhotoKey} className="transition-transform duration-500 group-hover:scale-[1.04]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/5 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-x-4 bottom-4 transition-transform duration-300 group-hover:-translate-y-1">
           <NotificationPreview {...industry.preview} />
         </div>
       </div>
@@ -114,6 +111,7 @@ export function ServiceCard({
   points,
   cta,
   image,
+  photo,
 }: {
   href: string;
   label: string;
@@ -122,10 +120,21 @@ export function ServiceCard({
   points: string[];
   cta: string;
   image: React.ReactNode;
+  photo?: PhotoKey;
 }) {
   return (
     <Link href={href} className={cx(cardBase, "overflow-hidden")}>
-      <div className="relative h-52 overflow-hidden border-b border-line">{image}</div>
+      <div className="relative h-56 overflow-hidden border-b border-line">
+        {photo ? (
+          <>
+            <Photo name={photo} className="transition-transform duration-500 group-hover:scale-[1.04]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent" aria-hidden="true" />
+            <div className="absolute inset-x-4 bottom-4">{image}</div>
+          </>
+        ) : (
+          image
+        )}
+      </div>
       <div className="flex flex-1 flex-col p-7">
         <p className="text-[13px] font-semibold text-accent">{label}</p>
         <h3 className="mt-1.5 text-xl font-semibold text-ink">{title}</h3>

@@ -5,6 +5,8 @@ import { Icon } from "@/components/icons";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { ButtonLink, JsonLd, SectionHeader } from "@/components/ui";
 import { NotificationPreview, Toast } from "@/components/illustrations";
+import { Photo } from "@/components/photo";
+import type { PhotoKey } from "@/content/photos";
 import { getIndustries, getIndustry, getSolution, getWorkflowsBySlugs } from "@/lib/content";
 import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
 
@@ -48,14 +50,15 @@ export default async function IndustryPage({ params }: Props) {
         intro={ind.intro}
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Industries", href: "/industries" }, { name: ind.shortName }]}
         aside={
-          <div className="relative hidden lg:block" role="img" aria-label={`Example notification: ${ind.preview.title}`}>
-            <div className="rotate-[-2deg] rounded-3xl bg-gradient-to-br from-accent-soft to-violet-soft p-6 shadow-[var(--shadow-float)]">
-              <NotificationPreview {...ind.preview} />
-              <div className="mt-3 opacity-70">
-                <NotificationPreview app="Astor" title="Customer updated automatically" body="Confirmation sent by text · logged to records" tone="mint" />
+          <div className="relative hidden lg:block">
+            <div className="relative h-80 overflow-hidden rounded-3xl shadow-[var(--shadow-float)]">
+              <Photo name={ind.slug as PhotoKey} sizes="(min-width: 1024px) 40vw, 100vw" priority />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent" aria-hidden="true" />
+              <div className="absolute inset-x-5 bottom-5">
+                <NotificationPreview {...ind.preview} />
               </div>
             </div>
-            <Toast className="absolute -bottom-6 -left-6" icon="check" tone="mint" title="Handled automatically" detail="No extra calls needed" />
+            <Toast className="absolute -left-6 -top-5" icon="check" tone="mint" title="Handled automatically" detail="No extra calls needed" />
           </div>
         }
       >

@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { IndustryCard, ServiceCard, SolutionCard, WorkflowCard, tint } from "@/components/cards";
 import { Icon } from "@/components/icons";
-import {
-  BuilderIllustration,
-  DashboardMockup,
-  LibraryIllustration,
-  MonitorIllustration,
-  PhoneMockup,
-  Toast,
-} from "@/components/illustrations";
+import { DashboardMockup, PhoneMockup, Toast } from "@/components/illustrations";
 import { CtaBand, Section } from "@/components/sections";
 import { ButtonLink, Container, Eyebrow, IntegrationMark, JsonLd, SectionHeader, cx } from "@/components/ui";
 import type { IconName } from "@/content/types";
@@ -22,7 +15,8 @@ const services = [
     body: "We map how your business runs today, then build and test a system that fits it — in your accounts, with your wording.",
     points: ["AI receptionists & call handling", "Lead capture and follow-up", "CRM setup and software integrations"],
     cta: "Plan a project",
-    image: <BuilderIllustration />,
+    photo: "service-implementation" as const,
+    image: <Toast icon="check" tone="accent" title="New inquiry → booked visit" detail="Built around your process" />,
   },
   {
     href: "/workflows",
@@ -31,7 +25,8 @@ const services = [
     body: "Start from workflows we have already designed for common problems, configured for your tools and rules.",
     points: ["Appointment reminders", "Quote and estimate follow-ups", "Invoice and document processing"],
     cta: "Browse workflows",
-    image: <LibraryIllustration />,
+    photo: "service-templates" as const,
+    image: <Toast icon="inbox" tone="violet" title="Ready-made workflows" detail="Reminders, follow-ups, intake…" />,
   },
   {
     href: "/services#managed",
@@ -40,7 +35,8 @@ const services = [
     body: "We monitor and maintain your automations so they keep working as your apps and your business change.",
     points: ["Monitoring and alerts", "Fixes and API updates", "Improvements as you grow"],
     cta: "About managed services",
-    image: <MonitorIllustration />,
+    photo: "service-support" as const,
+    image: <Toast icon="chart" tone="mint" title="All systems healthy" detail="Monitoring & alerts included" />,
   },
 ];
 

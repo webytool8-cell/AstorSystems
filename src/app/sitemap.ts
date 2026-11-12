@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/about", 0.5),
     entry("/contact", 0.7),
     entry("/privacy", 0.2),
+    entry("/credits", 0.1),
     ...getSolutions().map((s) => entry(`/solutions/${s.slug}`, 0.8)),
     ...getIndustries().map((i) => entry(`/industries/${i.slug}`, 0.8)),
     ...getWorkflows().map((w) => entry(`/workflows/${w.slug}`, 0.6)),
