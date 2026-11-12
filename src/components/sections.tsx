@@ -49,7 +49,7 @@ export function CtaBand({
   title = "Start with the problem, not the technology.",
   body = "Book a free 30-minute consultation. We will walk through how work moves through your business today and identify where automation would make a measurable difference — and where it would not.",
   primary = { href: "/contact?type=consultation", label: "Request a consultation" },
-  secondary = { href: "/custom-projects", label: "Describe a custom project" },
+  secondary = { href: "/start", label: "Get a free proposal" },
 }: {
   title?: string;
   body?: string;

@@ -6,6 +6,7 @@ import { CtaBand, Section } from "@/components/sections";
 import { ButtonLink, Container, Eyebrow, IntegrationMark, JsonLd, SectionHeader, cx } from "@/components/ui";
 import type { IconName } from "@/content/types";
 import { Photo } from "@/components/photo";
+import { HeroChatInput } from "@/components/intake/hero-chat-input";
 import { demos } from "@/content/demos";
 import { getFeaturedWorkflows, getIndustries, getIntegrations, getSolutions } from "@/lib/content";
 
@@ -126,16 +127,20 @@ export default function HomePage() {
               Astor Systems helps businesses streamline operations, connect their technology, and eliminate repetitive work
               through intelligent automation and custom integrations.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/solutions" arrow>
-                Explore solutions
-              </ButtonLink>
-              <ButtonLink href="/contact?type=consultation" variant="outline">
-                Request a free consultation
-              </ButtonLink>
+            <div className="mt-9 max-w-xl">
+              <p className="mb-3 text-sm font-semibold text-ink">Tell our assistant what you&rsquo;d like to fix — get a free systems proposal in minutes.</p>
+              <HeroChatInput />
+              <p className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                <Link href="/solutions" className="inline-flex items-center gap-1 font-semibold text-accent hover:underline">
+                  Or explore solutions <Icon name="arrow-right" className="h-4 w-4" />
+                </Link>
+                <Link href="/contact?type=consultation" className="font-semibold text-ink hover:text-accent">
+                  Request a consultation
+                </Link>
+              </p>
             </div>
-            <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted">
-              {["Free 30-minute consultation", "Fixed-price proposals", "You own everything we build"].map((t) => (
+            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted">
+              {["Free proposal & consultation", "Fixed-price projects", "You own everything we build"].map((t) => (
                 <li key={t} className="flex items-center gap-2">
                   <span className="flex h-5 w-5 items-center justify-center rounded-full bg-mint-soft text-mint">
                     <Icon name="check" className="h-3 w-3" strokeWidth={3} />

@@ -51,14 +51,15 @@ export function SiteHeader() {
           </ul>
         </nav>
         <div className="hidden items-center gap-3 lg:flex">
-          <Link href="/custom-projects" className="text-sm text-muted hover:text-ink">
-            Custom projects
+          <Link href="/contact?type=consultation" className="text-sm text-muted hover:text-ink">
+            Book a consultation
           </Link>
           <Link
-            href="/contact?type=consultation"
-            className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-navy-800"
+            href="/start"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-800"
           >
-            Request a consultation
+            <Icon name="assistant" className="h-4 w-4" />
+            Get a free proposal
           </Link>
         </div>
         <button
@@ -78,7 +79,7 @@ export function SiteHeader() {
           <Container className="py-6">
             <nav aria-label="Mobile">
               <ul className="divide-y divide-line border-y border-line">
-                {[...mainNav, { href: "/custom-projects", label: "Custom Projects" }, { href: "/contact", label: "Contact" }].map(
+                {[...mainNav, { href: "/custom-projects", label: "Custom Projects" }, { href: "/contact", label: "Contact & Consultations" }].map(
                   (item) => (
                     <li key={item.href}>
                       <Link
@@ -97,10 +98,11 @@ export function SiteHeader() {
               </ul>
             </nav>
             <Link
-              href="/contact?type=consultation"
-              className="mt-8 flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3.5 text-sm font-medium text-white"
+              href="/start"
+              className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-accent px-5 py-3.5 text-sm font-semibold text-white"
             >
-              Request a consultation
+              <Icon name="assistant" className="h-4 w-4" />
+              Get a free proposal
             </Link>
           </Container>
         </div>

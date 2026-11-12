@@ -59,6 +59,19 @@ supabase/migrations/   SQL for the inquiries table
 - **Fonts are self-hosted** via `@fontsource` (Inter, IBM Plex Mono), so there are no external font requests and the build works offline.
 - **Accessibility:** skip link, semantic landmarks, labelled form fields with `aria-invalid` / `aria-describedby`, visible focus states, reduced-motion support.
 
+## AI intake chat (`/start`)
+
+Visitors describe their business in a chat (homepage hero box → `/start`). The assistant asks a few plain-language questions, then drafts a **preliminary proposal** of systems from the site catalog, which the visitor can send to the team.
+
+- `src/app/api/chat/route.ts`: streams newline-delimited JSON events to the browser and runs a short tool loop (at most 3 proposal attempts per turn).
+- `src/lib/intake/system-prompt.ts`: the assistant's instructions plus the full catalog (solutions, workflows, integrations with statuses, industries). It's byte-stable, so it is prompt-cached; don't add timestamps or other per-request data.
+- `src/lib/intake/proposal.ts`: the `create_proposal` tool (strict JSON schema whose enums come from the catalog) and a zod schema the server re-checks **before anything is shown**. Invalid proposals go back to the model as tool errors, so it can only recommend things the catalog actually contains.
+- **Model:** `claude-opus-5-5` at `effort: medium`, with server-side refusal fallbacks enabled (`fallbacks: "default"`). Override the model with `ASTOR_CHAT_MODEL`.
+- **Conversation state:** kept in the visitor's browser (`sessionStorage`) and sent with each turn, including thinking blocks, which are passed back unchanged; the server stays stateless. Limits: 2,000 characters per message, 60 messages, 40 requests per IP per 10 minutes (best-effort, per instance).
+- **Submission:** "Send proposal for review" posts a `proposal` inquiry (proposal + transcript) through the existing inquiry pipeline, tagged `source:ai-intake`. Run `supabase/migrations/0002_inquiry_kind_proposal.sql` if you use Supabase.
+- **Guardrails** (in the prompt): the assistant discloses that it is AI, quotes no prices, invents no clients or statistics, only offers *planned* integrations when the visitor already uses that tool, and doesn't collect sensitive data. The proposal card states it is an AI draft that a person reviews.
+- **Cost:** each visitor message is one or more Claude requests. Watch usage in the Anthropic Console, and consider a stronger rate limit (e.g. Vercel firewall rules) before heavy promotion.
+
 ## Phase 2 features
 
 - **Interactive demos** (`src/components/demos/*`, data in `src/content/demos.ts`): client-side simulations on sample data. They make no network calls, and every demo is labelled "Prototype · sample data". Business names, people and numbers are fictional (phone numbers use the 555-01xx range).
@@ -96,6 +109,8 @@ If no destination is configured, development logs the inquiry to the console. **
 | `NEXT_PUBLIC_SITE_URL` | Yes (prod) | Canonical URLs, sitemap, Open Graph |
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | One destination required | Store inquiries. The service role key is server-only. |
 | `INQUIRY_WEBHOOK_URL`, `INQUIRY_WEBHOOK_SECRET` | One destination required | Forward inquiries to n8n/Make/etc. |
+| `ANTHROPIC_API_KEY` | For the AI chat | Powers `/start`. Without it the chat shows a fallback message. |
+| `ASTOR_CHAT_MODEL` | Optional | Model override for the chat (default `claude-opus-5-5`). |
 
 No other accounts are needed for Phase 1.
 

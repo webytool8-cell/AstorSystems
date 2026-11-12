@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     entry("/", 1),
+    entry("/start", 0.9),
     entry("/solutions", 0.9),
     entry("/industries", 0.9),
     entry("/workflows", 0.8),
