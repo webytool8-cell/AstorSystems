@@ -14,7 +14,18 @@ export const stepKindMeta: Record<StepKind, { label: string; dot: string; short:
  * Full workflow diagram. Horizontal flow on large screens, vertical on small screens.
  * Rendered from data so every solution and workflow page shares one visual language.
  */
-export function WorkflowDiagram({ steps, dark = false, showDetails = true }: { steps: WorkflowStep[]; dark?: boolean; showDetails?: boolean }) {
+export function WorkflowDiagram({
+  steps,
+  dark = false,
+  showDetails = true,
+  active,
+}: {
+  steps: WorkflowStep[];
+  dark?: boolean;
+  showDetails?: boolean;
+  /** When set, steps before this index show as done and this step is highlighted (used by WorkflowPlayer). */
+  active?: number;
+}) {
   return (
     <div>
       <ol
@@ -54,19 +65,27 @@ export function WorkflowDiagram({ steps, dark = false, showDetails = true }: { s
               )}
               <div
                 className={cx(
-                  "flex w-full flex-col rounded-xl border p-4",
+                  "flex w-full flex-col rounded-xl border p-4 transition-all duration-300",
                   dark ? "border-line-dark bg-navy-900/80" : "border-line bg-white",
-                  step.kind === "condition" && (dark ? "border-amber/40" : "border-amber/40"),
+                  step.kind === "condition" && "border-amber/40",
+                  active !== undefined && i === active && "-translate-y-1 border-accent shadow-[var(--shadow-lift)] ring-4 ring-accent/15",
+                  active !== undefined && i < active && "border-mint/40 bg-mint-soft/40",
+                  active !== undefined && i > active && "opacity-55",
                 )}
+                aria-current={active === i ? "step" : undefined}
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className={cx("flex items-center gap-2 text-[11px] font-medium", dark ? "text-muted-dark" : "text-muted")}>
                     <span className={cx("h-2 w-2 rounded-[2px]", meta.dot)} aria-hidden="true" />
                     {meta.label}
                   </span>
-                  <span className={cx("font-mono text-[10px]", dark ? "text-muted-dark/70" : "text-muted-2")}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+                  {active !== undefined && i < active ? (
+                    <span className="text-[11px] font-semibold text-mint">✓ Done</span>
+                  ) : (
+                    <span className={cx("font-mono text-[10px]", dark ? "text-muted-dark/70" : "text-muted-2")}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  )}
                 </div>
                 <p className={cx("mt-3 text-sm font-medium leading-snug", dark ? "text-white" : "text-ink")}>{step.label}</p>
                 {step.tool && <p className={cx("mt-1 text-xs", dark ? "text-muted-dark" : "text-muted")}>{step.tool}</p>}

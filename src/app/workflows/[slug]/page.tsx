@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { IntegrationCard, WorkflowCard } from "@/components/cards";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { ButtonLink, CheckList, JsonLd, SectionHeader, Tag } from "@/components/ui";
-import { StepLegend, WorkflowDiagram } from "@/components/workflow-diagram";
+import { StepLegend } from "@/components/workflow-diagram";
+import { WorkflowPlayer } from "@/components/workflow-player";
 import {
   accessLabel,
   getIndustriesBySlugs,
@@ -103,7 +104,7 @@ export default async function WorkflowPage({ params }: Props) {
           <StepLegend />
         </div>
         <div className="mt-10">
-          <WorkflowDiagram steps={w.steps} />
+          <WorkflowPlayer steps={w.steps} />
         </div>
       </Section>
 

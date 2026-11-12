@@ -5,6 +5,8 @@ import { DashboardMockup, PhoneMockup, Toast } from "@/components/illustrations"
 import { CtaBand, Section } from "@/components/sections";
 import { ButtonLink, Container, Eyebrow, IntegrationMark, JsonLd, SectionHeader, cx } from "@/components/ui";
 import type { IconName } from "@/content/types";
+import { Photo } from "@/components/photo";
+import { demos } from "@/content/demos";
 import { getFeaturedWorkflows, getIndustries, getIntegrations, getSolutions } from "@/lib/content";
 
 const services = [
@@ -181,8 +183,41 @@ export default function HomePage() {
         </ul>
       </Section>
 
+      {/* Demos */}
+      <Section tone="paper">
+        <SectionHeader
+          eyebrow="See it in action"
+          title="Try our interactive demos"
+          intro="Click through working prototypes of the systems we build. They run in your browser on sample data."
+          action={
+            <ButtonLink href="/demos" variant="outline" arrow>
+              All demos
+            </ButtonLink>
+          }
+        />
+        <ul className="mt-14 grid gap-6 md:grid-cols-3">
+          {demos.map((d) => (
+            <li key={d.slug}>
+              <Link
+                href={`/demos/${d.slug}`}
+                className="card-hover group relative flex h-80 flex-col justify-end overflow-hidden rounded-2xl shadow-[var(--shadow-card)]"
+              >
+                <Photo name={d.photo} className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.05]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent" aria-hidden="true" />
+                <span className="absolute right-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-ink">Try it</span>
+                <div className="relative p-6 text-white">
+                  <p className="text-[13px] font-semibold text-white/80">{d.industryName}</p>
+                  <h3 className="mt-1 text-xl font-semibold">{d.shortTitle}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/85">{d.summary}</p>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
       {/* Problems */}
-      <Section>
+      <Section tone="white">
         <SectionHeader
           eyebrow="Sound familiar?"
           title="The small, everyday problems that quietly cost you customers."
@@ -207,11 +242,11 @@ export default function HomePage() {
       </Section>
 
       {/* How it works */}
-      <Section tone="white">
+      <Section tone="paper">
         <SectionHeader align="center" eyebrow="How it works" title="Simple from first call to launch" intro="No long contracts or confusing retainers — just a clear plan and a working result." />
         <ol className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
-            <li key={s.title} className="relative rounded-2xl border border-line bg-paper p-6">
+            <li key={s.title} className="relative rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-card)]">
               <span className={cx("flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold", tint(i))}>{i + 1}</span>
               <h3 className="mt-5 text-lg font-semibold text-ink">{s.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{s.body}</p>
@@ -229,7 +264,7 @@ export default function HomePage() {
       </Section>
 
       {/* Industries */}
-      <Section>
+      <Section tone="white">
         <SectionHeader
           eyebrow="Who we help"
           title="Built for businesses that run on phones, schedules and paperwork."
@@ -250,7 +285,7 @@ export default function HomePage() {
       </Section>
 
       {/* Solutions */}
-      <Section tone="white">
+      <Section tone="paper">
         <SectionHeader
           eyebrow="Solutions"
           title="Pick the problem you want to fix."
@@ -271,7 +306,7 @@ export default function HomePage() {
       </Section>
 
       {/* Workflows */}
-      <Section>
+      <Section tone="white">
         <SectionHeader
           eyebrow="Workflow library"
           title="See exactly how it works."
@@ -292,7 +327,7 @@ export default function HomePage() {
       </Section>
 
       {/* Integrations */}
-      <Section tone="white">
+      <Section tone="paper">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-center">
           <div>
             <SectionHeader
@@ -326,7 +361,7 @@ export default function HomePage() {
       </Section>
 
       {/* Why us */}
-      <Section>
+      <Section tone="white">
         <SectionHeader
           align="center"
           eyebrow="Why Astor Systems"
@@ -347,7 +382,7 @@ export default function HomePage() {
       </Section>
 
       {/* FAQ */}
-      <Section tone="white">
+      <Section tone="paper">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr]">
           <div>
             <SectionHeader eyebrow="Questions" title="Things people usually ask" intro="Don’t see your question? Just ask — we’re happy to help." />
@@ -357,7 +392,7 @@ export default function HomePage() {
               </ButtonLink>
             </div>
           </div>
-          <div className="divide-y divide-line rounded-2xl border border-line bg-paper">
+          <div className="divide-y divide-line rounded-2xl border border-line bg-white shadow-[var(--shadow-card)]">
             {faqs.map((f) => (
               <details key={f.q} className="group px-6 py-5 [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink">

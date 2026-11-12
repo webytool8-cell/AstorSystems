@@ -1,4 +1,4 @@
-# Astor Systems — Company Website (Phase 1)
+# Astor Systems — Company Website (Phases 1–2)
 
 The public website for Astor Systems, a business technology and automation company. It is built with Next.js (App Router), TypeScript and Tailwind CSS, and is designed to deploy to Vercel.
 
@@ -27,6 +27,9 @@ Requires Node 20+ (developed on Node 22).
 | `/custom-projects` | Qualified project inquiry form (accepts `?workflow=` / `?solution=` context) |
 | `/contact` | Contact and consultation form (accepts `?type=consultation` etc.) |
 | `/about`, `/privacy` | Company and privacy notice |
+| `/demos`, `/demos/[slug]` | Phase 2: three interactive prototypes (AI receptionist, cleaning quotes & CRM, maintenance requests) |
+| `/guides`, `/guides/[slug]` | Phase 2: educational articles with Article schema |
+| `/credits` | Photo credits and licenses |
 | `/sitemap.xml`, `/robots.txt`, `/opengraph-image` | SEO infrastructure |
 
 ## Architecture
@@ -55,6 +58,21 @@ supabase/migrations/   SQL for the inquiries table
 - **No third-party logos.** Integrations use monogram marks. Product names are used descriptively.
 - **Fonts are self-hosted** via `@fontsource` (Inter, IBM Plex Mono), so there are no external font requests and the build works offline.
 - **Accessibility:** skip link, semantic landmarks, labelled form fields with `aria-invalid` / `aria-describedby`, visible focus states, reduced-motion support.
+
+## Phase 2 features
+
+- **Interactive demos** (`src/components/demos/*`, data in `src/content/demos.ts`): client-side simulations on sample data. They make no network calls, and every demo is labelled "Prototype · sample data". Business names, people and numbers are fictional (phone numbers use the 555-01xx range).
+- **Interactive workflow player** (`src/components/workflow-player.tsx`): steps through any workflow on the workflow and solution pages.
+- **Guides** (`src/content/guides.ts`): structured blocks (`p`, `h2`, `list`, `tip`), ready to move to MDX or a CMS.
+- **20 workflows** in the library.
+
+## Photography
+
+Photos live in `public/images/photos/` as WebP, and every one is registered in `src/content/photos.ts` with its creator, license and source. They were found via [Openverse](https://openverse.org) and are CC0, public domain, CC BY 2.0 or CC BY-SA 2.0, which all allow commercial use with attribution. Credits are listed on `/credits`, linked from the footer.
+
+- To swap in your own photography, replace the file and update its entry in `photos.ts`; remove the credit once it's your own image.
+- Avoid "NoDerivatives" (ND) and "NonCommercial" (NC) licensed images: cropping and commercial use aren't permitted.
+- Photos show general industry scenes; the people pictured are not clients or staff, and the credits page says so.
 
 ## Inquiry handling
 
@@ -99,5 +117,5 @@ No other accounts are needed for Phase 1.
 
 ## Roadmap hooks (later phases)
 
-- **Phase 2:** demo projects (AI receptionist, cleaning CRM, property maintenance). Add `/demos/*` using `WorkflowDiagram`. Add blog/guides under `/guides` (MDX).
+- **Phase 2 (done):** demos, workflow player, guides, additional workflows, photography.
 - **Phase 3:** admin dashboard and customer portal (Supabase Auth; add RLS policies to `inquiries`), move content into tables behind `lib/content.ts`, Stripe checkout via `WorkflowAccess.paid.checkoutUrl`, and an Automation Discovery Tool that reuses the industry and solution data to generate recommendations.

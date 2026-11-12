@@ -14,6 +14,8 @@ export function SiteFooter() {
       title: "Company",
       links: [
         { href: "/services", label: "Services" },
+        { href: "/demos", label: "Interactive Demos" },
+        { href: "/guides", label: "Guides" },
         { href: "/workflows", label: "Workflow Library" },
         { href: "/integrations", label: "Integrations" },
         { href: "/about", label: "About" },

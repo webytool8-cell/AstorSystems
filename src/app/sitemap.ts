@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getIndustries, getIntegrations, getSolutions, getWorkflows } from "@/lib/content";
 import { site } from "@/lib/site";
+import { demos } from "@/content/demos";
+import { guides } from "@/content/guides";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -23,6 +25,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/contact", 0.7),
     entry("/privacy", 0.2),
     entry("/credits", 0.1),
+    entry("/demos", 0.8),
+    entry("/guides", 0.7),
+    ...demos.map((d) => entry(`/demos/${d.slug}`, 0.7)),
+    ...guides.map((g) => entry(`/guides/${g.slug}`, 0.7)),
     ...getSolutions().map((s) => entry(`/solutions/${s.slug}`, 0.8)),
     ...getIndustries().map((i) => entry(`/industries/${i.slug}`, 0.8)),
     ...getWorkflows().map((w) => entry(`/workflows/${w.slug}`, 0.6)),

@@ -12,10 +12,10 @@ export const site = {
 };
 
 export const mainNav = [
+  { href: "/services", label: "Services" },
   { href: "/solutions", label: "Solutions" },
   { href: "/industries", label: "Industries" },
   { href: "/workflows", label: "Workflows" },
-  { href: "/integrations", label: "Integrations" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
+  { href: "/demos", label: "Demos" },
+  { href: "/guides", label: "Guides" },
 ] as const;

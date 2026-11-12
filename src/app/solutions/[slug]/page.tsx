@@ -5,7 +5,8 @@ import { Icon } from "@/components/icons";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { ButtonLink, CheckList, Eyebrow, JsonLd, SectionHeader, cx } from "@/components/ui";
 import { stepKindMeta } from "@/components/workflow-diagram";
-import { StepLegend, WorkflowDiagram } from "@/components/workflow-diagram";
+import { StepLegend } from "@/components/workflow-diagram";
+import { WorkflowPlayer } from "@/components/workflow-player";
 import { getIndustriesBySlugs, getIntegrationsBySlugs, getSolution, getSolutions, getWorkflowsBySlugs } from "@/lib/content";
 import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
 
@@ -124,7 +125,7 @@ export default async function SolutionPage({ params }: Props) {
           <StepLegend />
         </div>
         <div className="mt-8">
-          <WorkflowDiagram steps={s.steps} />
+          <WorkflowPlayer steps={s.steps} />
         </div>
       </Section>
 
