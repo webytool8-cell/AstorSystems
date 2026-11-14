@@ -53,9 +53,8 @@ export const PROPOSAL_TOOL_NAME = "create_proposal";
 export const proposalTool = {
   name: PROPOSAL_TOOL_NAME,
   description:
-    "Create the visitor's preliminary proposal once you understand their business, the problems they want solved and the tools they use. The proposal is shown to the visitor as a structured card. Only reference solutions, workflows and integrations from the catalog. Call this once you have enough information; call it again if the visitor asks for changes.",
+    "Create (or revise) the visitor's preliminary proposal. Call it as soon as you know what kind of business it is and at least one concrete problem to solve. The proposal is shown as a structured card. Only reference solutions, workflows and integrations from the catalog. When revising, send the full updated proposal.",
   strict: true,
-  eager_input_streaming: true,
   input_schema: {
     type: "object" as const,
     additionalProperties: false,

@@ -23,7 +23,19 @@ const phaseMeta = {
   later: { label: "Later", tone: "bg-paper-2 text-muted" },
 } as const;
 
-export function ProposalView({ proposal, transcript }: { proposal: Proposal; transcript: string }) {
+type Account = { name: string; email: string };
+
+export function ProposalView({
+  proposal,
+  transcript,
+  getToken,
+  account,
+}: {
+  proposal: Proposal;
+  transcript: string;
+  getToken: () => Promise<string | null>;
+  account: Account;
+}) {
   const industry = industryMap.get(proposal.industry);
   const allIntegrations = [...new Set(proposal.systems.flatMap((s) => s.integrations))];
 
@@ -144,13 +156,23 @@ export function ProposalView({ proposal, transcript }: { proposal: Proposal; tra
           anything is agreed; scope and pricing are confirmed in a written proposal.
         </p>
 
-        <SendProposal proposal={proposal} transcript={transcript} />
+        <SendProposal proposal={proposal} transcript={transcript} getToken={getToken} account={account} />
       </div>
     </article>
   );
 }
 
-function SendProposal({ proposal, transcript }: { proposal: Proposal; transcript: string }) {
+function SendProposal({
+  proposal,
+  transcript,
+  getToken,
+  account,
+}: {
+  proposal: Proposal;
+  transcript: string;
+  getToken: () => Promise<string | null>;
+  account: Account;
+}) {
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
   const [reference, setReference] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -169,7 +191,12 @@ function SendProposal({ proposal, transcript }: { proposal: Proposal; transcript
     setError("");
     setState("sending");
     try {
-      const res = await fetch("/api/inquiry", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const token = await getToken();
+      const res = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        body: JSON.stringify(payload),
+      });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; reference?: string; error?: string };
       if (res.ok && data.ok && data.reference) {
         setReference(data.reference);
@@ -207,14 +234,14 @@ function SendProposal({ proposal, transcript }: { proposal: Proposal; transcript
           <label htmlFor="p-name" className="text-xs font-medium text-ink">
             Name <span className="text-accent">*</span>
           </label>
-          <input id="p-name" name="name" autoComplete="name" className={cx(input, "mt-1")} aria-invalid={Boolean(errors.name)} />
+          <input id="p-name" name="name" defaultValue={account.name} autoComplete="name" className={cx(input, "mt-1")} aria-invalid={Boolean(errors.name)} />
           {errors.name && <p className="mt-1 text-xs text-red-700">{errors.name}</p>}
         </div>
         <div>
           <label htmlFor="p-email" className="text-xs font-medium text-ink">
             Email <span className="text-accent">*</span>
           </label>
-          <input id="p-email" name="email" type="email" autoComplete="email" className={cx(input, "mt-1")} aria-invalid={Boolean(errors.email)} />
+          <input id="p-email" name="email" type="email" defaultValue={account.email} autoComplete="email" className={cx(input, "mt-1")} aria-invalid={Boolean(errors.email)} />
           {errors.email && <p className="mt-1 text-xs text-red-700">{errors.email}</p>}
         </div>
         <div>

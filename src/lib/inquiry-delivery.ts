@@ -12,11 +12,15 @@ export interface InquiryRecord {
   company: string | null;
   priority: "high" | "standard";
   signals: string[];
-  payload: Omit<Inquiry, "website">;
+  payload: Omit<Inquiry, "website"> & { account?: { uid: string; email: string | null; emailVerified: boolean } };
   user_agent: string | null;
 }
 
-export function buildRecord(inquiry: Inquiry, userAgent: string | null): InquiryRecord {
+export function buildRecord(
+  inquiry: Inquiry,
+  userAgent: string | null,
+  account?: { uid: string; email: string | null; emailVerified: boolean },
+): InquiryRecord {
   const now = new Date();
   const datePart = now.toISOString().slice(2, 10).replace(/-/g, "");
   const reference = `AS-${datePart}-${randomBytes(2).toString("hex").toUpperCase()}`;
@@ -32,7 +36,7 @@ export function buildRecord(inquiry: Inquiry, userAgent: string | null): Inquiry
     company: inquiry.company || null,
     priority,
     signals,
-    payload,
+    payload: account ? { ...payload, account } : payload,
     user_agent: userAgent,
   };
 }

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { fieldErrors, inquirySchema } from "@/lib/inquiry";
 import { buildRecord, deliverInquiry } from "@/lib/inquiry-delivery";
 import { site } from "@/lib/site";
+import { userFromRequest } from "@/lib/auth/verify";
 
 export const runtime = "nodejs";
 
@@ -40,7 +41,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Please check the highlighted fields.", fieldErrors: errors }, { status: 422 });
   }
 
-  const record = buildRecord(parsed.data, request.headers.get("user-agent"));
+  // Proposals come from the signed-in AI intake flow: require and record the account.
+  let account: { uid: string; email: string | null; emailVerified: boolean } | undefined;
+  if (parsed.data.kind === "proposal") {
+    const user = await userFromRequest(request);
+    if (!user) return NextResponse.json({ ok: false, error: "Please sign in again to send your proposal." }, { status: 401 });
+    account = { uid: user.uid, email: user.email, emailVerified: user.emailVerified };
+  }
+
+  const record = buildRecord(parsed.data, request.headers.get("user-agent"), account);
   const result = await deliverInquiry(record);
 
   if (!result.configured) {

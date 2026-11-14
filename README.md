@@ -61,16 +61,30 @@ supabase/migrations/   SQL for the inquiries table
 
 ## AI intake chat (`/start`)
 
-Visitors describe their business in a chat (homepage hero box → `/start`). The assistant asks a few plain-language questions, then drafts a **preliminary proposal** of systems from the site catalog, which the visitor can send to the team.
+Signed-in visitors describe their business (homepage hero box → `/start`). The assistant asks **at most two** short questions with tap-to-answer options, then produces a **preliminary proposal** of systems from the site catalog, which the visitor can send to the team.
 
-- `src/app/api/chat/route.ts`: streams newline-delimited JSON events to the browser and runs a short tool loop (at most 3 proposal attempts per turn).
-- `src/lib/intake/system-prompt.ts`: the assistant's instructions plus the full catalog (solutions, workflows, integrations with statuses, industries). It's byte-stable, so it is prompt-cached; don't add timestamps or other per-request data.
-- `src/lib/intake/proposal.ts`: the `create_proposal` tool (strict JSON schema whose enums come from the catalog) and a zod schema the server re-checks **before anything is shown**. Invalid proposals go back to the model as tool errors, so it can only recommend things the catalog actually contains.
-- **Model:** `claude-opus-5-5` at `effort: medium`, with server-side refusal fallbacks enabled (`fallbacks: "default"`). Override the model with `ASTOR_CHAT_MODEL`.
-- **Conversation state:** kept in the visitor's browser (`sessionStorage`) and sent with each turn, including thinking blocks, which are passed back unchanged; the server stays stateless. Limits: 2,000 characters per message, 60 messages, 40 requests per IP per 10 minutes (best-effort, per instance).
-- **Submission:** "Send proposal for review" posts a `proposal` inquiry (proposal + transcript) through the existing inquiry pipeline, tagged `source:ai-intake`. Run `supabase/migrations/0002_inquiry_kind_proposal.sql` if you use Supabase.
-- **Guardrails** (in the prompt): the assistant discloses that it is AI, quotes no prices, invents no clients or statistics, only offers *planned* integrations when the visitor already uses that tool, and doesn't collect sensitive data. The proposal card states it is an AI draft that a person reviews.
-- **Cost:** each visitor message is one or more Claude requests. Watch usage in the Anthropic Console, and consider a stronger rate limit (e.g. Vercel firewall rules) before heavy promotion.
+**Regulated by design**
+- The assistant never writes free text. Every turn is a forced tool call (`tool_choice: any`): either `ask_question` (one question, 2–5 options) or `create_proposal`.
+- The server enforces the path. After 2 questions, and for every message once a proposal exists, the call is forced to `create_proposal`. Each conversation allows 4 proposals (the first plus 3 revisions).
+- Proposals are re-validated against the catalog before display. Invalid ones go back to the model once as tool errors; out-of-bounds questions are clipped or skipped rather than retried.
+- Instructions in `src/lib/intake/system-prompt.ts` (byte-stable, prompt-cached): disclose AI, no prices, no invented clients or statistics, never ask for budget, timeline or contact details.
+
+**Model:** `claude-haiku-5-5` at `effort: low` (override with `ASTOR_CHAT_MODEL`). A typical conversation is 2–3 requests. Haiku has no server-side refusal fallback; a refusal returns a short "please rephrase" message.
+
+**Sign-in (Firebase Authentication)**
+- The client uses `@firebase/app` + `@firebase/auth` (Google and email/password). The full `firebase` bundle isn't installed, which keeps Firestore and its vulnerable gRPC dependency out of the tree.
+- The server verifies the Firebase ID token on every `/api/chat` call and on proposal submissions (`src/lib/auth/verify.ts`). It uses `jose` against Google's public keys and checks issuer, audience and expiry. No service account is needed.
+- Limits are per user: 30 chat requests per hour (in memory, per instance; use Firestore or Upstash for durable limits at scale).
+- Submitted proposals include the verified account (`uid`, email, email-verified flag) in the inquiry payload.
+- Conversations are stored per user in `sessionStorage`.
+
+**Firebase setup**
+1. Create a Firebase project and add a **Web app**. Copy its config into the `NEXT_PUBLIC_FIREBASE_*` variables (see `.env.example`).
+2. In **Authentication → Sign-in method**, enable **Google** and **Email/Password**.
+3. In **Authentication → Settings → Authorized domains**, add your production domain (and the Vercel preview domain if you test there).
+4. Set `ANTHROPIC_API_KEY` in Vercel. If you use Supabase, run `supabase/migrations/0002_inquiry_kind_proposal.sql`.
+
+**Local development** with the Auth emulator: `npx firebase-tools emulators:start --only auth --project demo-astor`. Then set both `*_FIREBASE_AUTH_EMULATOR_HOST` variables and `NEXT_PUBLIC_FIREBASE_PROJECT_ID=demo-astor`. Emulator tokens are accepted only when `NODE_ENV` is not `production`.
 
 ## Phase 2 features
 
@@ -110,7 +124,8 @@ If no destination is configured, development logs the inquiry to the console. **
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | One destination required | Store inquiries. The service role key is server-only. |
 | `INQUIRY_WEBHOOK_URL`, `INQUIRY_WEBHOOK_SECRET` | One destination required | Forward inquiries to n8n/Make/etc. |
 | `ANTHROPIC_API_KEY` | For the AI chat | Powers `/start`. Without it the chat shows a fallback message. |
-| `ASTOR_CHAT_MODEL` | Optional | Model override for the chat (default `claude-opus-5-5`). |
+| `ASTOR_CHAT_MODEL` | Optional | Model override for the chat (default `claude-haiku-5-5`). |
+| `NEXT_PUBLIC_FIREBASE_*`, `FIREBASE_PROJECT_ID` | For the AI chat | Firebase Authentication; visitors must sign in to use `/start`. |
 
 No other accounts are needed for Phase 1.
 
